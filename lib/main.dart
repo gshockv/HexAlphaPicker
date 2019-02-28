@@ -93,7 +93,7 @@ class _AppHomePageState extends State<AppHomePage> {
 
   _buildPreview() => Expanded(
         child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
           child: Column(
             children: <Widget>[
               // preview widget
