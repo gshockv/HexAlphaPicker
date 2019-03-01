@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'hex_colors.dart';
 
 void main() => runApp(HexAlphaApp());
 
@@ -18,12 +19,28 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage> {
-  double _value = 0.75;
+  static const _defaultBlackHexColor = "000000";
+  
+  double _alphaValue = 0.5;
+  int _alphaPercentage = 50;
+  String _hexWithAlphaColor = "#";
+  Color _overlayColor = Colors.transparent;
+
+  _AppHomePageState() {
+    _calculateOverlayColor();
+  }
 
   void _setValue(double value) {
     setState(() {
-      _value = value;
+      _alphaValue = value;
+      _calculateOverlayColor();
     });
+  }
+
+  void _calculateOverlayColor() {
+    _alphaPercentage = (_alphaValue * 100).round();
+    _hexWithAlphaColor = "#" + hexAlpha[_alphaPercentage] + _defaultBlackHexColor;
+    _overlayColor = Color(_hexToColor(_hexWithAlphaColor));
   }
 
   @override
@@ -46,9 +63,10 @@ class _AppHomePageState extends State<AppHomePage> {
         title: Text(
           "Hex Alpha Picker",
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Color(0xff336688),
-            letterSpacing: 2,
+            fontWeight: FontWeight.w400,
+            fontSize: 22,
+            color: Colors.blueGrey,
+            letterSpacing: 1.5,
           ),
         ),
         actions: <Widget>[
@@ -71,20 +89,20 @@ class _AppHomePageState extends State<AppHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "${(_value * 100).round()}%",
+                "${_alphaPercentage}%",
                 style: TextStyle(
                   color: Colors.blueGrey,
-                  fontSize: 64,
-                  fontWeight: FontWeight.w300,
+                  fontSize: 88,
+                  fontWeight: FontWeight.w200,
                   letterSpacing: 2,
                 ),
               ),
               Slider(
-                value: _value,
+                value: _alphaValue,
                 onChanged: _setValue,
                 activeColor: Color(0xFF039BE5),
                 divisions: 20,
-                label: "${(_value * 100).round()}%",
+                //label: "${(_alphaValue * 100).round()}%",
               ),
             ],
           ),
@@ -93,14 +111,13 @@ class _AppHomePageState extends State<AppHomePage> {
 
   _buildPreview() => Expanded(
         child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
+          padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
           child: Column(
             children: <Widget>[
               // preview widget
               Container(
                 height: 240,
                 decoration: BoxDecoration(
-                  color: Color(0xff336699),
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                 ),
                 child: Stack(
@@ -112,14 +129,15 @@ class _AppHomePageState extends State<AppHomePage> {
                           fit: BoxFit.cover,
                           height: 240,
                         )),
+                    // transparent color overlay
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(0x12000000),
+                        color: _overlayColor,
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
                       child: Center(
                         child: Text(
-                          "#FF000000",
+                          "${_hexWithAlphaColor}",
                           style: TextStyle(
                             color: Color(0xeeffffff),
                             fontSize: 32,
@@ -150,4 +168,11 @@ class _AppHomePageState extends State<AppHomePage> {
           ),
         ),
       );
+
+  int _hexToColor(String code) {
+    code = code.replaceFirst('#', '');
+    code = code.length == 6 ? 'ff' + code : code;
+    int val = int.parse(code, radix: 16);
+    return val;
+  }
 }
