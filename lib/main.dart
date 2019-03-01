@@ -19,7 +19,7 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage> {
-  static const _defaultBlackHexColor = "000000";
+  static const _defaultOverlayColor = "000000";
   
   double _alphaValue = 0.5;
   int _alphaPercentage = 50;
@@ -39,7 +39,7 @@ class _AppHomePageState extends State<AppHomePage> {
 
   void _calculateOverlayColor() {
     _alphaPercentage = (_alphaValue * 100).round();
-    _hexWithAlphaColor = "#" + hexAlpha[_alphaPercentage] + _defaultBlackHexColor;
+    _hexWithAlphaColor = "#" + hexAlpha[_alphaPercentage] + _defaultOverlayColor;
     _overlayColor = Color(_hexToColor(_hexWithAlphaColor));
   }
 
@@ -139,10 +139,10 @@ class _AppHomePageState extends State<AppHomePage> {
                         child: Text(
                           "${_hexWithAlphaColor}",
                           style: TextStyle(
-                            color: Color(0xeeffffff),
-                            fontSize: 32,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 2,
+                            color: Color(0xb3ffffff),
+                            fontSize: 42,
+                            fontWeight: FontWeight.w200,
+                            letterSpacing: 1.5,
                           ),
                         ),
                       ),
