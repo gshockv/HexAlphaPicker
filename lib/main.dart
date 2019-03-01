@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "settings_route.dart";
 import 'hex_colors.dart';
 
 void main() => runApp(HexAlphaApp());
@@ -75,7 +76,7 @@ class _AppHomePageState extends State<AppHomePage> {
               Icons.settings,
               color: Color(0xaa336688),
             ),
-            onPressed: () {},
+            onPressed: _openSettings,
           ),
         ],
       );
@@ -168,6 +169,14 @@ class _AppHomePageState extends State<AppHomePage> {
           ),
         ),
       );
+
+  void _openSettings() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => SettingsRoute()
+      )
+    );
+  }
 
   int _hexToColor(String code) {
     code = code.replaceFirst('#', '');
