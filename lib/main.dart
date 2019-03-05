@@ -21,7 +21,7 @@ class AppHomePage extends StatefulWidget {
 
 class _AppHomePageState extends State<AppHomePage> {
   static const _defaultOverlayColor = "000000";
-  
+
   double _alphaValue = 0.5;
   int _alphaPercentage = 50;
   String _hexWithAlphaColor = "#";
@@ -40,7 +40,8 @@ class _AppHomePageState extends State<AppHomePage> {
 
   void _calculateOverlayColor() {
     _alphaPercentage = (_alphaValue * 100).round();
-    _hexWithAlphaColor = "#" + hexAlpha[_alphaPercentage] + _defaultOverlayColor;
+    _hexWithAlphaColor =
+        "#" + hexAlpha[_alphaPercentage] + _defaultOverlayColor;
     _overlayColor = Color(_hexToColor(_hexWithAlphaColor));
   }
 
@@ -48,12 +49,14 @@ class _AppHomePageState extends State<AppHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _buildPreview(),
-          _buildSliderWidget(),
-        ],
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _buildPreview(),
+            _buildSliderWidget(),
+          ],
+        ),
       ),
     );
   }
@@ -171,11 +174,8 @@ class _AppHomePageState extends State<AppHomePage> {
       );
 
   void _openSettings() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (context) => SettingsRoute()
-      )
-    );
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SettingsRoute()));
   }
 
   int _hexToColor(String code) {
