@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
+import "color_model.dart";
 
 class SettingsRoute extends StatefulWidget {
+  final int selectedColorPosition;
+
+  SettingsRoute({Key key, @required this.selectedColorPosition}) : super(key: key);
+
   @override
   _SettingsRouteState createState() => _SettingsRouteState();
 }
 
 class _SettingsRouteState extends State<SettingsRoute> {
-  var _colors = const [
-    0xFF000000,
-    0xFF9804A2,
-    0xFF0D47A1,
-    0xFF01220B,
-    0xFF400455,
-    0xFF53031A,
-    0xFF478309,
-    0xFF775502,
-  ];
-
   int _selectedColorPosition = 0;
+  final _colorModel = OverlayColorModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedColorPosition = widget.selectedColorPosition;
+  }
 
   _selectColor(int position) {
     setState(() {
       _selectedColorPosition = position;
-      final aColor = _colors[_selectedColorPosition];
-      debugPrint("Selected color: $aColor");
     });
   }
 
@@ -70,13 +69,15 @@ class _SettingsRouteState extends State<SettingsRoute> {
       );
 
   List<Widget> _buildColorSelector() =>
-      List.generate(_colors.length, (position) => _buildColorTile(position));
+      List.generate(
+          _colorModel.overlayColorsCount(), 
+              (position) => _buildColorTile(position));
 
   _buildColorTile(int position) => GridTile(
         child: InkResponse(
           enableFeedback: true,
           child: Ink(
-            color: Color(_colors[position]),
+            color: Color(_colorModel.getOverlayColorCode(position)),
             child: Container(
               decoration: _selectedItemDecoration(position),
             ),
@@ -121,7 +122,7 @@ class _SettingsRouteState extends State<SettingsRoute> {
       );
 
   _applySettings(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(_selectedColorPosition);
   }
 
   BoxDecoration _selectedItemDecoration(int position) {

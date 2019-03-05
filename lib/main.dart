@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import "settings_route.dart";
-import 'hex_colors.dart';
+import "color_model.dart";
 
 void main() => runApp(HexAlphaApp());
 
@@ -20,29 +20,29 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage> {
-  static const _defaultOverlayColor = "000000";
+  final _colorModel = OverlayColorModel();
 
-  double _alphaValue = 0.5;
-  int _alphaPercentage = 50;
-  String _hexWithAlphaColor = "#";
-  Color _overlayColor = Colors.transparent;
+  int _selectedOverlayIndex = 0;
+  double _alphaValue = 0;
+  int _alphaPercentage = 0;
 
-  _AppHomePageState() {
-    _calculateOverlayColor();
+  @override
+  void initState() {
+    super.initState();
+    _alphaValue = _colorModel.defaultAlphaValue;
+    _calculateOverlay();
   }
 
-  void _setValue(double value) {
+  void _setAlphaValue(double value) {
     setState(() {
       _alphaValue = value;
-      _calculateOverlayColor();
+      _calculateOverlay();
     });
   }
 
-  void _calculateOverlayColor() {
+  void _calculateOverlay() {
     _alphaPercentage = (_alphaValue * 100).round();
-    _hexWithAlphaColor =
-        "#" + hexAlpha[_alphaPercentage] + _defaultOverlayColor;
-    _overlayColor = Color(_hexToColor(_hexWithAlphaColor));
+    _colorModel.calculateOverlayColor(_alphaPercentage, _selectedOverlayIndex);
   }
 
   @override
@@ -103,7 +103,7 @@ class _AppHomePageState extends State<AppHomePage> {
               ),
               Slider(
                 value: _alphaValue,
-                onChanged: _setValue,
+                onChanged: _setAlphaValue,
                 activeColor: Color(0xFF039BE5),
                 divisions: 20,
                 //label: "${(_alphaValue * 100).round()}%",
@@ -136,12 +136,12 @@ class _AppHomePageState extends State<AppHomePage> {
                     // transparent color overlay
                     Container(
                       decoration: BoxDecoration(
-                        color: _overlayColor,
+                        color: _colorModel.overlayColor,
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
                       child: Center(
                         child: Text(
-                          "${_hexWithAlphaColor}",
+                          "${_colorModel.overlayColorHuman}",
                           style: TextStyle(
                             color: Color(0xb3ffffff),
                             fontSize: 42,
@@ -173,15 +173,14 @@ class _AppHomePageState extends State<AppHomePage> {
         ),
       );
 
-  void _openSettings() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SettingsRoute()));
-  }
+  void _openSettings() async {
+    final overlayIndex = await Navigator.of(context)
+        .push(MaterialPageRoute(builder:
+          (context) => SettingsRoute(selectedColorPosition: _selectedOverlayIndex)));
 
-  int _hexToColor(String code) {
-    code = code.replaceFirst('#', '');
-    code = code.length == 6 ? 'ff' + code : code;
-    int val = int.parse(code, radix: 16);
-    return val;
+    setState(() {
+      _selectedOverlayIndex = overlayIndex;
+      _calculateOverlay();
+    });
   }
 }
