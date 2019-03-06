@@ -9,6 +9,7 @@ class HexAlphaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hex Alpha',
+      debugShowCheckedModeBanner: false,
       home: AppHomePage(),
     );
   }
