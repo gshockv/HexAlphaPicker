@@ -180,8 +180,10 @@ class _AppHomePageState extends State<AppHomePage> {
           (context) => SettingsRoute(selectedColorPosition: _selectedOverlayIndex)));
 
     setState(() {
-      _selectedOverlayIndex = overlayIndex;
-      _calculateOverlay();
+      if (overlayIndex != null) {
+        _selectedOverlayIndex = overlayIndex;
+        _calculateOverlay();
+      }
     });
   }
 }
