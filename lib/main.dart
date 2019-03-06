@@ -135,19 +135,22 @@ class _AppHomePageState extends State<AppHomePage> {
                           height: 240,
                         )),
                     // transparent color overlay
-                    Container(
-                      decoration: BoxDecoration(
-                        color: _colorModel.overlayColor,
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "${_colorModel.overlayColorHuman}",
-                          style: TextStyle(
-                            color: Color(0xb3ffffff),
-                            fontSize: 42,
-                            fontWeight: FontWeight.w200,
-                            letterSpacing: 1.5,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _colorModel.overlayColor,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "${_colorModel.overlayColorHuman}",
+                            style: TextStyle(
+                              color: Color(0xb3ffffff),
+                              fontSize: 42,
+                              fontWeight: FontWeight.w200,
+                              letterSpacing: 1.5,
+                            ),
                           ),
                         ),
                       ),
