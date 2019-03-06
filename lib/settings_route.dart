@@ -4,7 +4,8 @@ import "color_model.dart";
 class SettingsRoute extends StatefulWidget {
   final int selectedColorPosition;
 
-  SettingsRoute({Key key, @required this.selectedColorPosition}) : super(key: key);
+  SettingsRoute({Key key, @required this.selectedColorPosition})
+      : super(key: key);
 
   @override
   _SettingsRouteState createState() => _SettingsRouteState();
@@ -68,10 +69,9 @@ class _SettingsRouteState extends State<SettingsRoute> {
         ),
       );
 
-  List<Widget> _buildColorSelector() =>
-      List.generate(
-          _colorModel.overlayColorsCount(), 
-              (position) => _buildColorTile(position));
+  List<Widget> _buildColorSelector() => List.generate(
+      _colorModel.overlayColorsCount(),
+      (position) => _buildColorTile(position));
 
   _buildColorTile(int position) => GridTile(
         child: InkResponse(
@@ -108,17 +108,6 @@ class _SettingsRouteState extends State<SettingsRoute> {
             letterSpacing: 1.5,
           ),
         ),
-    actions: <Widget>[
-      IconButton(
-        icon: Icon(
-          Icons.info_outline,
-          color: Colors.blueGrey
-        ),
-        onPressed: () {
-          debugPrint("Info pressed");
-        },
-      )
-    ],
       );
 
   _applySettings(BuildContext context) {
@@ -128,17 +117,12 @@ class _SettingsRouteState extends State<SettingsRoute> {
   BoxDecoration _selectedItemDecoration(int position) {
     if (position == _selectedColorPosition) {
       return BoxDecoration(
-        border: Border.all(
-          color: Colors.amber,
-          width: 4,
-        )
-      );
-    } else {
-      return BoxDecoration(
           border: Border.all(
-              color: Colors.transparent
-          )
-      );
+        color: Colors.amber,
+        width: 4,
+      ));
+    } else {
+      return BoxDecoration(border: Border.all(color: Colors.transparent));
     }
   }
 }
