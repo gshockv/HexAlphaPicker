@@ -68,10 +68,10 @@ class _AppHomePageState extends State<AppHomePage> {
         title: Text(
           "Hex Alpha Picker",
           style: TextStyle(
+            fontFamily: "Nexa",
             fontWeight: FontWeight.w400,
             fontSize: 22,
             color: Colors.blueGrey,
-            letterSpacing: 1.5,
           ),
         ),
         actions: <Widget>[

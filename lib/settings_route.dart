@@ -103,9 +103,10 @@ class _SettingsRouteState extends State<SettingsRoute> {
           "Settings",
           style: TextStyle(
             fontWeight: FontWeight.w400,
+            fontFamily: "Nexa",
             fontSize: 22,
             color: Colors.blueGrey,
-            letterSpacing: 1.5,
+
           ),
         ),
       );
